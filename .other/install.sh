@@ -13,3 +13,7 @@ mv gdu_linux_amd64 /usr/bin/gdu
 
 curl -LO https://github.com/ClementTsang/bottom/releases/download/0.9.3/bottom_0.9.3_amd64.deb
 sudo dpkg -i bottom_0.9.3_amd64.deb
+
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+source "$HOME/.cargo/env"
+cargo install exa
