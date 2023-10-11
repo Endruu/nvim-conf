@@ -12,6 +12,8 @@ vim.opt.scrolloff = 8
 -- Shift lines up/down
 vim.keymap.set('n', '<M-j>', '<cmd>m .+1<CR>')
 vim.keymap.set('n', '<M-k>', '<cmd>m .-2<CR>')
+vim.keymap.set('n', '<M-Down>', '<cmd>m .+1<CR>')
+vim.keymap.set('n', '<M-Up>', '<cmd>m .-2<CR>')
 
 -- Install package manager
 --    https://github.com/folke/lazy.nvim
@@ -186,6 +188,8 @@ require('lazy').setup({
       }
     }
   },
+  
+  'dstein64/vim-startuptime',
 
 }, {})
 
@@ -205,6 +209,18 @@ vim.o.mouse = 'a'
 -- Sync clipboard between OS and Neovim.
 --  Remove this option if you want your OS clipboard to remain independent.
 --  See `:help 'clipboard'`
+vim.g.clipboard = {
+  name = "xsel",
+  copy = {
+    ["+"] = "xsel --nodetach -i -b",
+    ["*"] = "xsel --nodetach -i -p",
+  },
+  paste = {
+    ["+"] = "xsel -o -b",
+    ["*"] = "xsel -o -b",
+  },
+  cache_enabled = 1,
+}
 vim.o.clipboard = 'unnamedplus'
 
 -- Enable break indent
@@ -320,7 +336,8 @@ require('nvim-treesitter.configs').setup {
   ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'typescript', 'vimdoc', 'vim' },
 
   -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
-  auto_install = false,
+  auto_install = true,
+  sync_install = true,
 
   highlight = { enable = true },
   indent = { enable = true },
@@ -466,6 +483,7 @@ local mason_lspconfig = require 'mason-lspconfig'
 
 mason_lspconfig.setup {
   ensure_installed = vim.tbl_keys(servers),
+  automatic_installation = true,
 }
 
 mason_lspconfig.setup_handlers {
